@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:namer_app/screen/login.dart';
+
 
 class Signup extends StatefulWidget {
   @override
@@ -10,14 +13,9 @@ final _formKey = GlobalKey<FormState>();
 String allowed =
     r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
 RegExp regExp = RegExp(allowed);
-void validation() {
-  final form = _formKey.currentState;
-  if (form!.validate()) {
-    print("Yes");
-  } else {
-    print("No");
-  }
-}
+
+String email = "";
+String password = "";
 
 const o = OutlineInputBorder(
   borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -28,6 +26,22 @@ const o = OutlineInputBorder(
 );
 
 class _SignupState extends State<Signup> {
+  void validation() async {
+    final form = _formKey.currentState;
+    if (form!.validate()) {
+      try {
+        UserCredential result = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: email, password: password);
+
+        print(result.user);
+      } on PlatformException catch (e) {
+        print(e.message.toString());
+      }
+    } else {
+      print("No");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +58,6 @@ class _SignupState extends State<Signup> {
                   ),
                   child: Image(
                     image: AssetImage("assets/images/vector-2.png"),
-         
                     height: 250,
                   ),
                 ),
@@ -70,6 +83,7 @@ class _SignupState extends State<Signup> {
                         height: 20,
                       ),
                       TextFormField(
+                        
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "Username is Too Short";
@@ -113,6 +127,11 @@ class _SignupState extends State<Signup> {
                         height: 17,
                       ),
                       TextFormField(
+                        onChanged: (value) {
+                          setState(() {
+                            value = email;
+                          });
+                        },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "Please Enter Email";
@@ -156,14 +175,19 @@ class _SignupState extends State<Signup> {
                         height: 17,
                       ),
                       TextFormField(
+                        onChanged: (value) {
+                          setState(() {
+                            value = password;
+                          });
+                        },
                         validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Please fill Password";
-                      } else if (value.length < 8) {
-                        return "Password is too short";
-                      }
-                      return null;
-                    },
+                          if (value == null || value.isEmpty) {
+                            return "Please fill Password";
+                          } else if (value.length < 8) {
+                            return "Password is too short";
+                          }
+                          return null;
+                        },
                         obscureText: true,
                         textAlign: TextAlign.center,
                         style: const TextStyle(
@@ -287,7 +311,8 @@ class _SignupState extends State<Signup> {
                         height: 25,
                       ),
                       ClipRRect(
-                        borderRadius: const BorderRadius.all(Radius.circular(10)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
                         child: SizedBox(
                           width: 329,
                           height: 56,
