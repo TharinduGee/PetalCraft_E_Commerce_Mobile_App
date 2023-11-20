@@ -1,13 +1,15 @@
+import 'dart:math';
+
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:namer_app/screen/log.dart';
 import 'package:namer_app/screen/login.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-
-
 void main() {
- 
+  WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -24,11 +26,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.deepPurpleAccent,
-            brightness: Brightness.light  
-          ),
-          
-          
+              seedColor: Colors.deepPurpleAccent, brightness: Brightness.light),
         ),
         home: LogIn(),
       ),
@@ -124,7 +122,6 @@ class FavoritesPage extends StatelessWidget {
         child: Text('No favorites yet...'),
       );
     }
-    
 
     return ListView(
       children: [

@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:namer_app/screen/firebase_auth_services.dart';
 import 'package:namer_app/screen/login.dart';
-
 
 class Signup extends StatefulWidget {
   @override
@@ -26,20 +26,26 @@ const o = OutlineInputBorder(
 );
 
 class _SignupState extends State<Signup> {
+  final FirebaseAuthService _auth = FirebaseAuthService();
+
+  TextEditingController _usernameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passswordController = TextEditingController();
+
   void validation() async {
     final form = _formKey.currentState;
     if (form!.validate()) {
-      try {
-        UserCredential result = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(email: email, password: password);
-
-        print(result.user);
-      } on PlatformException catch (e) {
-        print(e.message.toString());
-      }
     } else {
       print("No");
     }
+  }
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _emailController.dispose();
+    _passswordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -83,7 +89,7 @@ class _SignupState extends State<Signup> {
                         height: 20,
                       ),
                       TextFormField(
-                        
+                        controller: _usernameController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "Username is Too Short";
@@ -127,11 +133,7 @@ class _SignupState extends State<Signup> {
                         height: 17,
                       ),
                       TextFormField(
-                        onChanged: (value) {
-                          setState(() {
-                            value = email;
-                          });
-                        },
+                        controller: _emailController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "Please Enter Email";
@@ -175,11 +177,7 @@ class _SignupState extends State<Signup> {
                         height: 17,
                       ),
                       TextFormField(
-                        onChanged: (value) {
-                          setState(() {
-                            value = password;
-                          });
-                        },
+                        controller: _passswordController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "Please fill Password";
@@ -384,5 +382,18 @@ class _SignupState extends State<Signup> {
             ),
           )),
     );
+  }
+
+  void _signUp() async {
+    String username = _usernameController.text;
+    String email = _emailController.text;
+    String password = _passswordController.text;
+
+    User? user = await _auth.signUpWithEmailAndPassword(email, password);
+    if (user == null) {
+      print("User is succesfully created");
+    } else {
+      print("some error");
+    }
   }
 }
