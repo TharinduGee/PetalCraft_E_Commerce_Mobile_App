@@ -11,25 +11,50 @@ final _formKey = GlobalKey<FormState>();
 final emailController = TextEditingController();
 final passwordController = TextEditingController();
 
-void signIn() async {
-  final UserCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-    email: emailController.text,
-    password: passwordController.text,
-  );
-  final user = UserCredential.user!;
-  print(user.uid);
+void signIn(context) async {
+  try {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        });
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: emailController.text,
+      password: passwordController.text,
+    );
+
+    Navigator.pop(context);
+  } on FirebaseAuthException catch (e) {
+    Navigator.pop(context);
+
+    if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
+      errorMessage(context, 'Incorrect User Credentials');
+    }else{
+      errorMessage(context, e);
+    }
+  }
+}
+
+void errorMessage(context , message) {
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(message),
+        );
+      });
 }
 
 //Allowed characters for email
 String allowed =
     r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
 RegExp regExp = RegExp(allowed);
-void validation() {
+void validation(context) {
   final form = _formKey.currentState;
   if (form!.validate()) {
-    print("Yes");
-  } else {
-    print("No");
+    signIn(context);
   }
 }
 
@@ -173,8 +198,7 @@ class _LogInState extends State<LogIn> {
                       height: 56,
                       child: ElevatedButton(
                         onPressed: () {
-                          validation();
-                          signIn();
+                          validation(context);
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF9F7BFF),
