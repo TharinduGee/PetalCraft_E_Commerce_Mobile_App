@@ -32,7 +32,7 @@ void signIn(context) async {
     if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
       errorMessage(context, 'Incorrect User Credentials');
     }else{
-      errorMessage(context, e);
+      errorMessage(context, e.code);
     }
   }
 }
