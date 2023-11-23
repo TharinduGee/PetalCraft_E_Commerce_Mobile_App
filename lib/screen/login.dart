@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:namer_app/screen/Signup.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:namer_app/screen/home.dart';
 
 class LogIn extends StatefulWidget {
   @override
@@ -7,16 +9,55 @@ class LogIn extends StatefulWidget {
 }
 
 final _formKey = GlobalKey<FormState>();
+final emailController = TextEditingController();
+final passwordController = TextEditingController();
+
+void signIn(context) async {
+  try {
+    // showDialog(
+    //     context: context,
+    //     builder: (context) {
+    //       return Center(
+    //         child: CircularProgressIndicator(),
+    //       );
+    //     });
+    print("yes");
+
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: emailController.text,
+      password: passwordController.text,
+    );
+
+    Navigator.pop(context);
+  } on FirebaseAuthException catch (e) {
+    Navigator.pop(context);
+
+    if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
+      errorMessage(context, 'Incorrect User Credentials');
+    } else {
+      errorMessage(context, e.code);
+    }
+  }
+}
+
+void errorMessage(context, message) {
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(message),
+        );
+      });
+}
+
 //Allowed characters for email
 String allowed =
     r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
 RegExp regExp = RegExp(allowed);
-void validation() {
+void validation(context) {
   final form = _formKey.currentState;
   if (form!.validate()) {
-    print("Yes");
-  } else {
-    print("No");
+    signIn(context);
   }
 }
 
@@ -24,8 +65,8 @@ class _LogInState extends State<LogIn> {
   @override
   Widget build(BuildContext context) { //  rebuild the UI when the state changes
     return Scaffold(
-      //backgroundColor: ColorScheme.fromSeed(seedColor: Colors.deepPurpleAccent),
-      body: Form(
+        //backgroundColor: ColorScheme.fromSeed(seedColor: Colors.deepPurpleAccent),
+        body: Form(
       key: _formKey,
       child: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
@@ -65,6 +106,7 @@ class _LogInState extends State<LogIn> {
                     height: 50,
                   ),
                   TextFormField(
+                    controller: emailController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "Please Enter Email";
@@ -108,6 +150,7 @@ class _LogInState extends State<LogIn> {
                     height: 50,
                   ),
                   TextFormField(
+                    controller: passwordController,
                     obscureText: true,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -158,7 +201,8 @@ class _LogInState extends State<LogIn> {
                       height: 56,
                       child: ElevatedButton(
                         onPressed: () {
-                          validation();
+                          Home();
+                          //validation(context);
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF9F7BFF),

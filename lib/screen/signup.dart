@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:namer_app/screen/login.dart';
 
@@ -7,13 +8,59 @@ class Signup extends StatefulWidget {
 }
 
 final _formKey = GlobalKey<FormState>();
+final emailController = TextEditingController();
+final passwordController = TextEditingController();
+final confirmPasswordController = TextEditingController();
+
+void signUp(context) async {
+  try {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        });
+    
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.text, password: passwordController.text);
+
+    Navigator.pop(context);
+  } on FirebaseAuthException catch (e) {
+    Navigator.pop(context);
+
+    if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
+      errorMessage(context, 'Incorrect User Credentials');
+    } else {
+      errorMessage(context, e.code);
+    }
+  }
+}
+
+void errorMessage(context, message) {
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(message),
+        );
+      });
+}
+
 String allowed =
     r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
 RegExp regExp = RegExp(allowed);
-void validation() {
+void validation(context) {
   final form = _formKey.currentState;
   if (form!.validate()) {
-    print("Yes");
+    if (confirmPasswordController.text == passwordController.text) {
+      print("Yes");
+      signUp(context);
+    } else {
+      errorMessage(
+        context, "Invalid Password"
+      );
+    }
   } else {
     print("No");
   }
@@ -38,7 +85,6 @@ class _SignupState extends State<Signup> {
                   ),
                   child: Image(
                     image: AssetImage("assets/images/vector-2.png"),
-         
                     height: 250,
                   ),
                 ),
@@ -107,6 +153,7 @@ class _SignupState extends State<Signup> {
                         height: 17,
                       ),
                       TextFormField(
+                        controller: emailController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "Please Enter Email";
@@ -150,14 +197,15 @@ class _SignupState extends State<Signup> {
                         height: 17,
                       ),
                       TextFormField(
+                        controller: passwordController,
                         validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Please fill Password";
-                      } else if (value.length < 8) {
-                        return "Password is too short";
-                      }
-                      return null;
-                    },
+                          if (value == null || value.isEmpty) {
+                            return "Please fill Password";
+                          } else if (value.length < 8) {
+                            return "Password is too short";
+                          }
+                          return null;
+                        },
                         obscureText: true,
                         textAlign: TextAlign.center,
                         style: const TextStyle(
@@ -194,6 +242,7 @@ class _SignupState extends State<Signup> {
                         height: 17,
                       ),
                       TextFormField(
+                        controller: confirmPasswordController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "Please fill Password";
@@ -281,7 +330,8 @@ class _SignupState extends State<Signup> {
                         height: 25,
                       ),
                       ClipRRect(
-                        borderRadius: const BorderRadius.all(Radius.circular(10)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
                         child: SizedBox(
                           width: 329,
                           height: 56,
@@ -290,7 +340,7 @@ class _SignupState extends State<Signup> {
                               // widget.controller.animateToPage(2,
                               //     duration: const Duration(milliseconds: 500),
                               //     curve: Curves.ease);
-                              validation();
+                              validation(context);
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF9F7BFF),
@@ -311,6 +361,7 @@ class _SignupState extends State<Signup> {
                         height: 15,
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const Text(
                             ' Have an account?',
