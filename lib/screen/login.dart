@@ -22,7 +22,7 @@ void validation() {
 
 class _LogInState extends State<LogIn> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { //  rebuild the UI when the state changes
     return Scaffold(
       //backgroundColor: ColorScheme.fromSeed(seedColor: Colors.deepPurpleAccent),
       body: Form(
@@ -30,7 +30,7 @@ class _LogInState extends State<LogIn> {
       child: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,  // Add this
           children: <Widget>[
             Padding(
                 padding: const EdgeInsets.only(

@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(
             seedColor: Colors.deepPurpleAccent,
-            brightness: Brightness.light  
+            brightness: Brightness.dark  
           ),
           
           
@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 
 class MyAppState extends ChangeNotifier {
   var current = WordPair.random();

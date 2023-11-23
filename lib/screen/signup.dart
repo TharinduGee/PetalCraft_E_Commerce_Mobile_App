@@ -19,13 +19,7 @@ void validation() {
   }
 }
 
-const o = OutlineInputBorder(
-  borderRadius: BorderRadius.all(Radius.circular(10)),
-  borderSide: BorderSide(
-    width: 1,
-    color: Color(0xFF837E93),
-  ),
-);
+
 
 class _SignupState extends State<Signup> {
   @override
