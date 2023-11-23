@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:namer_app/screen/Signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:namer_app/screen/home.dart';
 
 class LogIn extends StatefulWidget {
   @override
@@ -13,13 +14,15 @@ final passwordController = TextEditingController();
 
 void signIn(context) async {
   try {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        });
+    // showDialog(
+    //     context: context,
+    //     builder: (context) {
+    //       return Center(
+    //         child: CircularProgressIndicator(),
+    //       );
+    //     });
+    print("yes");
+
     await FirebaseAuth.instance.signInWithEmailAndPassword(
       email: emailController.text,
       password: passwordController.text,
@@ -31,13 +34,13 @@ void signIn(context) async {
 
     if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
       errorMessage(context, 'Incorrect User Credentials');
-    }else{
+    } else {
       errorMessage(context, e.code);
     }
   }
 }
 
-void errorMessage(context , message) {
+void errorMessage(context, message) {
   showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -198,7 +201,8 @@ class _LogInState extends State<LogIn> {
                       height: 56,
                       child: ElevatedButton(
                         onPressed: () {
-                          validation(context);
+                          Home();
+                          //validation(context);
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF9F7BFF),

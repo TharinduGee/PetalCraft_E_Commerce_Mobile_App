@@ -12,8 +12,14 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(actions: [
-        IconButton(onPressed: logOut, icon: Icon(Icons.logout)),
+      drawer :  Drawer(),
+      appBar: AppBar(
+        title: Icon(Icons.home_filled),
+        centerTitle:  true,
+        actions: [
+        IconButton(onPressed: logOut, icon: Icon(Icons.logout)), 
+         //IconButton(onPressed: logOut, icon: Icon(Icons.verified_user_sharp)),
+        
       ]),
       body: Center(
         child: Text("Logged In"),

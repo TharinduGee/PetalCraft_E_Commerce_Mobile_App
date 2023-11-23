@@ -1,6 +1,8 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:namer_app/screen/Login.dart';
 import 'package:namer_app/screen/auth.dart';
+import 'package:namer_app/screen/home.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -26,7 +28,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(
               seedColor: Colors.deepPurpleAccent, brightness: Brightness.light),
         ),
-        home: AuthPage(),
+        home: Home(),
       ),
     );
   }
