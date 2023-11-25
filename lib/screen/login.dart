@@ -14,14 +14,13 @@ final passwordController = TextEditingController();
 
 void signIn(context) async {
   try {
-    // showDialog(
-    //     context: context,
-    //     builder: (context) {
-    //       return Center(
-    //         child: CircularProgressIndicator(),
-    //       );
-    //     });
-    print("yes");
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        });
 
     await FirebaseAuth.instance.signInWithEmailAndPassword(
       email: emailController.text,
@@ -29,7 +28,9 @@ void signIn(context) async {
     );
 
     Navigator.pop(context);
+
   } on FirebaseAuthException catch (e) {
+    
     Navigator.pop(context);
 
     if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
@@ -202,7 +203,7 @@ class _LogInState extends State<LogIn> {
                       child: ElevatedButton(
                         onPressed: () {
                           Home();
-                          //validation(context);
+                          validation(context);
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF9F7BFF),
