@@ -26,13 +26,22 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(
+<<<<<<< HEAD
+            seedColor: Colors.deepPurpleAccent,
+            brightness: Brightness.dark  
+          ),
+          
+          
+=======
               seedColor: Colors.deepPurpleAccent, brightness: Brightness.light),
+>>>>>>> e0d06e092d760e55494c476b1fb6edd6e3e49904
         ),
         home: Home(),
       ),
     );
   }
 }
+
 
 class MyAppState extends ChangeNotifier {
   var current = WordPair.random();
