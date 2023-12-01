@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:namer_app/components/authTextFormField.dart';
 import 'package:namer_app/screen/Signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:namer_app/screen/home.dart';
 
 class LogIn extends StatefulWidget {
   @override
@@ -28,9 +28,7 @@ void signIn(context) async {
     );
 
     Navigator.pop(context);
-
   } on FirebaseAuthException catch (e) {
-    
     Navigator.pop(context);
 
     if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
@@ -64,7 +62,8 @@ void validation(context) {
 
 class _LogInState extends State<LogIn> {
   @override
-  Widget build(BuildContext context) { //  rebuild the UI when the state changes
+  Widget build(BuildContext context) {
+    //  rebuild the UI when the state changes
     return Scaffold(
         //backgroundColor: ColorScheme.fromSeed(seedColor: Colors.deepPurpleAccent),
         body: Form(
@@ -72,7 +71,7 @@ class _LogInState extends State<LogIn> {
       child: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,  // Add this
+          crossAxisAlignment: CrossAxisAlignment.start, // Add this
           children: <Widget>[
             Padding(
                 padding: const EdgeInsets.only(
@@ -83,7 +82,7 @@ class _LogInState extends State<LogIn> {
                   alignment: Alignment.center,
                   height: 300,
                   child: Image(
-                    image: AssetImage("assets/images/vector-1.png"),
+                    image: AssetImage("assets/images/main_vector.jpg"),
                   ),
                 )),
             const SizedBox(
@@ -106,8 +105,9 @@ class _LogInState extends State<LogIn> {
                   const SizedBox(
                     height: 50,
                   ),
-                  TextFormField(
+                  AuthTextFormField(
                     controller: emailController,
+                    name: "Email",
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "Please Enter Email";
@@ -116,44 +116,15 @@ class _LogInState extends State<LogIn> {
                       }
                       return null;
                     },
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Color(0xFF393939),
-                      fontSize: 13,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400,
-                    ),
-                    decoration: const InputDecoration(
-                      labelText: 'Email',
-                      labelStyle: TextStyle(
-                        color: Color(0xFF755DC1),
-                        fontSize: 15,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: Color(0xFF837E93),
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: Color(0xFF9F7BFF),
-                        ),
-                      ),
-                    ),
                   ),
                   const SizedBox(
                     height: 50,
                   ),
-                  TextFormField(
+                  AuthTextFormField(
                     controller: passwordController,
-                    obscureText: true,
-                    validator: (value) {
+                    obsecureText: true,
+                    name: "Password",
+                    validator: (String? value) {
                       if (value == null || value.isEmpty) {
                         return "Please fill Password";
                       } else if (value.length < 8) {
@@ -161,36 +132,6 @@ class _LogInState extends State<LogIn> {
                       }
                       return null;
                     },
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Color(0xFF393939),
-                      fontSize: 13,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400,
-                    ),
-                    decoration: const InputDecoration(
-                      labelText: 'Password',
-                      labelStyle: TextStyle(
-                        color: Color(0xFF755DC1),
-                        fontSize: 15,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: Color(0xFF837E93),
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: Color(0xFF9F7BFF),
-                        ),
-                      ),
-                    ),
                   ),
                   const SizedBox(
                     height: 25,
@@ -202,7 +143,6 @@ class _LogInState extends State<LogIn> {
                       height: 56,
                       child: ElevatedButton(
                         onPressed: () {
-                          Home();
                           validation(context);
                         },
                         style: ElevatedButton.styleFrom(

@@ -14,6 +14,7 @@ class AuthPage extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           //land to homepage
+          //print(snapshot.data);
           return Home();
         } else {
           //direct to the login page

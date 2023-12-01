@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:namer_app/screen/storage_service.dart';
 
@@ -11,20 +9,28 @@ class Gallery extends StatefulWidget {
 }
 
 final Storage store = Storage();
-final Future<List<String>> result = store.fetchImages();
+//final Future<List<String>> result = store.fetchImages();
 
 class _MyWidgetState extends State<Gallery> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Gallery"),
+          title: Text(
+            "Gallery",
+            style: const TextStyle(
+              color: Color(0xFF393939),
+              fontSize: 22,
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w700,
+            ),
+          ),
           backgroundColor: Color(0xFF755DC1),
         ),
         body: Padding(
-          padding: const EdgeInsets.only(top: 20),
+          padding: const EdgeInsets.only(top: 0),
           child: FutureBuilder<List<String>>(
-            future: result,
+            future: store.fetchImages(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(

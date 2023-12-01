@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:namer_app/components/authTextFormField.dart';
+import 'package:namer_app/screen/firestore_service.dart';
 import 'package:namer_app/screen/login.dart';
 
 class Signup extends StatefulWidget {
@@ -7,10 +9,14 @@ class Signup extends StatefulWidget {
   State<Signup> createState() => _SignupState();
 }
 
+final Database database = Database();
+
 final _formKey = GlobalKey<FormState>();
 final emailController = TextEditingController();
 final passwordController = TextEditingController();
+final usernameController = TextEditingController();
 final confirmPasswordController = TextEditingController();
+final phoneNoController = TextEditingController();
 
 void signUp(context) async {
   try {
@@ -21,10 +27,10 @@ void signUp(context) async {
             child: CircularProgressIndicator(),
           );
         });
-    
+
     await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text, password: passwordController.text);
-
+    database.addDocument(usernameController,emailController,phoneNoController);
     Navigator.pop(context);
   } on FirebaseAuthException catch (e) {
     Navigator.pop(context);
@@ -55,18 +61,15 @@ void validation(context) {
   if (form!.validate()) {
     if (confirmPasswordController.text == passwordController.text) {
       print("Yes");
+
       signUp(context);
     } else {
-      errorMessage(
-        context, "Invalid Password"
-      );
+      errorMessage(context, "Invalid Password");
     }
   } else {
     print("No");
   }
 }
-
-
 
 class _SignupState extends State<Signup> {
   @override
@@ -84,7 +87,7 @@ class _SignupState extends State<Signup> {
                     top: 5,
                   ),
                   child: Image(
-                    image: AssetImage("assets/images/vector-2.png"),
+                    image: AssetImage("assets/images/main_vector.jpg"),
                     height: 250,
                   ),
                 ),
@@ -109,223 +112,75 @@ class _SignupState extends State<Signup> {
                       const SizedBox(
                         height: 20,
                       ),
-                      TextFormField(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Username is Too Short";
-                          } else if (value.length < 6) {
-                            return "Please Enter a Username";
-                          }
-                          return null;
-                        },
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          color: Color(0xFF393939),
-                          fontSize: 13,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w400,
-                        ),
-                        decoration: const InputDecoration(
-                          labelText: 'UserName',
-                          labelStyle: TextStyle(
-                            color: Color(0xFF755DC1),
-                            fontSize: 15,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 1,
-                              color: Color(0xFF837E93),
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 1,
-                              color: Color(0xFF9F7BFF),
-                            ),
-                          ),
-                        ),
-                      ),
+                      AuthTextFormField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Username is Too Short";
+                            } else if (value.length < 6) {
+                              return "Please Enter a Username";
+                            }
+                            return null;
+                          },
+                          name: "Username",
+                          controller: usernameController),
                       SizedBox(
                         height: 17,
                       ),
-                      TextFormField(
-                        controller: emailController,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Please Enter Email";
-                          } else if (!regExp.hasMatch(value)) {
-                            return "Your Email is Invalid";
-                          }
-                          return null;
-                        },
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          color: Color(0xFF393939),
-                          fontSize: 13,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w400,
-                        ),
-                        decoration: const InputDecoration(
-                          labelText: 'Email',
-                          labelStyle: TextStyle(
-                            color: Color(0xFF755DC1),
-                            fontSize: 15,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 1,
-                              color: Color(0xFF837E93),
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 1,
-                              color: Color(0xFF9F7BFF),
-                            ),
-                          ),
-                        ),
-                      ),
+                      AuthTextFormField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please Enter Email";
+                            } else if (!regExp.hasMatch(value)) {
+                              return "Your Email is Invalid";
+                            }
+                            return null;
+                          },
+                          name: "Email",
+                          controller: emailController),
                       SizedBox(
                         height: 17,
                       ),
-                      TextFormField(
-                        controller: passwordController,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Please fill Password";
-                          } else if (value.length < 8) {
-                            return "Password is too short";
-                          }
-                          return null;
-                        },
-                        obscureText: true,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          color: Color(0xFF393939),
-                          fontSize: 13,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w400,
-                        ),
-                        decoration: const InputDecoration(
-                          labelText: 'Password',
-                          labelStyle: TextStyle(
-                            color: Color(0xFF755DC1),
-                            fontSize: 15,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 1,
-                              color: Color(0xFF837E93),
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 1,
-                              color: Color(0xFF9F7BFF),
-                            ),
-                          ),
-                        ),
-                      ),
+                      AuthTextFormField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please fill Password";
+                            } else if (value.length < 8) {
+                              return "Password is too short";
+                            }
+                            return null;
+                          },
+                          obsecureText: true,
+                          name: "Password",
+                          controller: passwordController),
                       SizedBox(
                         height: 17,
                       ),
-                      TextFormField(
-                        controller: confirmPasswordController,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Please fill Password";
-                          } else if (value.length < 8) {
-                            return "Password is too short";
-                          }
-                          return null;
-                        },
-                        obscureText: true,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          color: Color(0xFF393939),
-                          fontSize: 13,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w400,
-                        ),
-                        decoration: const InputDecoration(
-                          labelText: 'Confirm password',
-                          labelStyle: TextStyle(
-                            color: Color(0xFF755DC1),
-                            fontSize: 15,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 1,
-                              color: Color(0xFF837E93),
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 1,
-                              color: Color(0xFF9F7BFF),
-                            ),
-                          ),
-                        ),
-                      ),
+                      AuthTextFormField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please fill Password";
+                            } else if (value.length < 8) {
+                              return "Password is too short";
+                            }
+                            return null;
+                          },
+                          obsecureText: true,
+                          name: "Confirm Password",
+                          controller: confirmPasswordController),
                       SizedBox(
                         height: 17,
                       ),
-                      TextFormField(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Please fill Phone No";
-                          } else if (value.length < 8) {
-                            return "Invalid Phone No";
-                          }
-                          return null;
-                        },
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          color: Color(0xFF393939),
-                          fontSize: 13,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w400,
-                        ),
-                        decoration: const InputDecoration(
-                          labelText: 'Phone No',
-                          labelStyle: TextStyle(
-                            color: Color(0xFF755DC1),
-                            fontSize: 15,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 1,
-                              color: Color(0xFF837E93),
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 1,
-                              color: Color(0xFF9F7BFF),
-                            ),
-                          ),
-                        ),
-                      ),
+                      AuthTextFormField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please fill Phone No";
+                            } else if (value.length < 8) {
+                              return "Invalid Phone No";
+                            }
+                            return null;
+                          },
+                          name: "Phone no",
+                          controller: phoneNoController),
                       SizedBox(
                         height: 25,
                       ),
