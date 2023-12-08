@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:namer_app/screen/gallery.dart';
+import 'package:namer_app/screen/producttest.dart';
 
 class Home extends StatelessWidget {
   Home({super.key});
@@ -29,7 +30,8 @@ class Home extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const Gallery()),
+                    MaterialPageRoute(
+                        builder: (context) => const ProductViewer()),
                   );
                 },
                 icon: Icon(Icons.photo_camera_back_outlined),
