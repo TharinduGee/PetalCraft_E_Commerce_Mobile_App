@@ -27,6 +27,9 @@ void signIn(context) async {
       password: passwordController.text,
     );
 
+    emailController.clear();
+    passwordController.clear();
+
     Navigator.pop(context);
   } on FirebaseAuthException catch (e) {
     Navigator.pop(context);

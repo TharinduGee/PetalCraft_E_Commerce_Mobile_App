@@ -56,7 +56,7 @@ class _MyWidgetState extends State<Gallery> {
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
                     return ListTile(
-                      title: Image.network(snapshot.data![index]),
+                      title: Image.network(snapshot.data![index]),                    
                     );
                   },
                 );

@@ -9,6 +9,7 @@ class Product {
     required this.name,
     required this.price,
     required this.description,
+    required this.category,
   });
 
   final String productId;
@@ -16,6 +17,7 @@ class Product {
   final String name;
   final int price;
   final String description;
+  final String category;
 
   Map<String, dynamic> toMap() {
     return {
@@ -23,7 +25,8 @@ class Product {
       'productImage': productImage,
       'name': name,
       "price": price,
-      "description": description
+      "description": description,
+      "category": category
     };
   }
 
@@ -37,6 +40,7 @@ class Product {
       productImage: data?['productImage'],
       price: data?['price'],
       description: data?['description'],
+      category: data?['category'],
     );
   }
 }
