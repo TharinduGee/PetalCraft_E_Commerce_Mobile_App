@@ -30,7 +30,22 @@ class CustomerService {
     }
   }
 
-  //Future<void> getUsername
+  Future<String> getUsername(String email) async {
+    //var email = FirebaseAuth.instance.currentUser?.email.toString();
+    QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+        .instance
+        .collection('Customers')
+        .where("email", isEqualTo: email)
+        .limit(1)
+        .get();
 
+    if (snapshot.docs.isEmpty) {
+      return "";
+    } else {
+      QueryDocumentSnapshot<Map<String, dynamic>> documentSnapshot =
+          snapshot.docs[0];
 
+      return Customer.fromFirestore(documentSnapshot).username;
+    }
+  }
 }

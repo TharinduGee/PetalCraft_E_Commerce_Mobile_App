@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:namer_app/components/authTextFormField.dart';
-import 'package:namer_app/screen/Signup.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:namer_app/screen/authetication/signup.dart';
 
 class LogIn extends StatefulWidget {
   @override

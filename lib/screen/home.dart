@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:namer_app/screen/catousel_slider.dart';
+import 'package:namer_app/components/catousel_slider.dart';
 import 'package:namer_app/screen/gallery.dart';
 import 'package:namer_app/screen/product_list.dart';
+import 'package:namer_app/services/CustomerService.dart';
 
 class Home extends StatefulWidget {
   Home({super.key});
@@ -11,29 +12,28 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
+CustomerService cusservice = CustomerService();
 
+String email = FirebaseAuth.instance.currentUser!.email.toString();
 
 void logOut() {
-    FirebaseAuth.instance.signOut();
+  FirebaseAuth.instance.signOut();
 }
 
-  List imgList = [
-    'vector-1',
-    'vector-1',
-    'vector-2',
-  ];
+List imgList = [
+  'vector-1',
+  'vector-1',
+  'vector-2',
+];
 
-  List categoryList = [
-    'Fresh Flowers',
-    'vector-1',
-    'vector-2',
-  ];
+List categoryList = [
+  'Fresh Flowers',
+  'vector-1',
+  'vector-2',
+];
 
 class _HomeState extends State<Home> {
   //final user = FirebaseAuth.instance.currentUser;
-  
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -58,11 +58,74 @@ class _HomeState extends State<Home> {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Gallery()),
+                              PageRouteBuilder(
+                                pageBuilder:
+                                    (context, animation, secondaryAnimation) =>
+                                        const Gallery(),
+                                transitionsBuilder: (context, animation,
+                                    secondaryAnimation, child) {
+                                  const begin = Offset(0.0, 1.0);
+                                  const end = Offset.zero;
+                                  var offsetAnimation =
+                                      Tween<Offset>(begin: begin, end: end)
+                                          .animate(
+                                    CurvedAnimation(
+                                      parent: animation,
+                                      curve: Curves.fastOutSlowIn,
+                                    ),
+                                  );
+                                  return SlideTransition(
+                                    position: offsetAnimation,
+                                    child: child,
+                                  );
+                                },
+                              ),
                             );
                           },
+                          // onPressed: () {
+                          //   Navigator.push(
+                          //     context,
+                          //     PageRouteBuilder(
+                          //       pageBuilder:
+                          //           (context, animation, secondaryAnimation) =>
+                          //               const Gallery(),
+                          //       transitionsBuilder: (context, animation,
+                          //           secondaryAnimation, child) {
+                          //         const begin = 0.0;
+                          //         const end = 1.0;
+                          //         var opacity =
+                          //             Tween<double>(begin: begin, end: end)
+                          //                 .animate(animation);
+                          //         return FadeTransition(
+                          //           opacity: opacity,
+                          //           child: child,
+                          //         );
+                          //       },
+                          //     ),
+                          //   );
+                          // },
+                          // onPressed: () {
+                          //   Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => const Gallery()),
+                          //   );
+                          // },
                           icon: Icon(Icons.photo_album_rounded)),
+                      FutureBuilder<String>(
+                          future: cusservice.getUsername(email),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Text("Welcome !");
+                            } else if (snapshot.hasError) {
+                              return Text("Welcome !");
+                            } else {
+                              return Text(
+                                "Welcome ${snapshot.data ?? ""} !",
+                              );
+                            }
+                          }),
                       IconButton(onPressed: logOut, icon: Icon(Icons.logout)),
                     ],
                   ),
@@ -157,7 +220,9 @@ class _HomeState extends State<Home> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => ProductList(category: categoryList[index])),
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  ProductList(category: categoryList[index])),
                         );
                       },
                       child: Container(

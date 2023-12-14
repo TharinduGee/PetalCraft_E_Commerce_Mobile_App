@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:namer_app/screen/storage_service.dart';
+import 'package:namer_app/services/storage_service.dart';
 
 class Gallery extends StatefulWidget {
   const Gallery({super.key});

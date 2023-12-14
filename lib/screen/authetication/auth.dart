@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:namer_app/screen/authetication/login.dart';
 import 'package:namer_app/screen/home.dart';
-import 'package:namer_app/screen/login.dart';
+
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
@@ -9,12 +10,11 @@ class AuthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: StreamBuilder<User?>(
+      body: StreamBuilder<User?>(
       stream: FirebaseAuth.instance.idTokenChanges(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           //land to homepage
-          //print(snapshot.data);
           return Home();
         } else {
           //direct to the login page

@@ -1,15 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:namer_app/components/authTextFormField.dart';
-import 'package:namer_app/screen/firestore_service.dart';
-import 'package:namer_app/screen/login.dart';
+import 'package:namer_app/screen/authetication/login.dart';
+import 'package:namer_app/services/CustomerService.dart';
 
 class Signup extends StatefulWidget {
   @override
   State<Signup> createState() => _SignupState();
 }
 
-final Database database = Database();
+final CustomerService database = CustomerService();
 
 final _formKey = GlobalKey<FormState>();
 final emailController = TextEditingController();
