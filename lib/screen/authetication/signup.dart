@@ -87,7 +87,7 @@ class _SignupState extends State<Signup> {
                     top: 5,
                   ),
                   child: Image(
-                    image: AssetImage("assets/images/main_vector.jpg"),
+                    image: AssetImage("assets/images/main_vector.png"),
                     height: 250,
                   ),
                 ),

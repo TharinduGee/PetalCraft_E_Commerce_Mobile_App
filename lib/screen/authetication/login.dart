@@ -86,7 +86,7 @@ class _LogInState extends State<LogIn> {
                   alignment: Alignment.center,
                   height: 300,
                   child: Image(
-                    image: AssetImage("assets/images/main_vector.jpg"),
+                    image: AssetImage("assets/images/main_vector.png"),
                   ),
                 )),
             const SizedBox(
@@ -150,7 +150,7 @@ class _LogInState extends State<LogIn> {
                           validation(context);
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF9F7BFF),
+                          backgroundColor: Color.fromRGBO(159, 123, 255, 1),
                         ),
                         child: const Text(
                           'Sign In',

@@ -2,6 +2,7 @@ import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:namer_app/screen/authetication/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:namer_app/splashScreen.dart';
 import 'firebase_options.dart';
 
 void main() async {
