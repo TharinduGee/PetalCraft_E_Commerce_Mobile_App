@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:namer_app/screen/authetication/login.dart';
 import 'package:namer_app/screen/home.dart';
+import 'package:namer_app/screen/home_test.dart';
 
 
 class AuthPage extends StatelessWidget {

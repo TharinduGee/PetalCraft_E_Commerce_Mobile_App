@@ -1,54 +1,69 @@
-// import 'package:flutter/material.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:namer_app/screen/gallery.dart';
-// import 'package:namer_app/screen/producttest.dart';
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
+import 'package:namer_app/screen/gallery.dart';
+import 'package:namer_app/screen/producttest.dart';
 
-// class Home extends StatelessWidget {
-//   Home({super.key});
+class Home extends StatelessWidget {
+  Home({super.key});
 
-//   final user = FirebaseAuth.instance.currentUser;
-//   void logOut() {
-//     FirebaseAuth.instance.signOut();
-//   }
+  final user = FirebaseAuth.instance.currentUser;
+  void logOut() {
+    FirebaseAuth.instance.signOut();
+  }
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       drawer: Drawer(),
-//       appBar:
-//           AppBar(title: Icon(Icons.home_filled), centerTitle: true, actions: [
-//         IconButton(onPressed: logOut, icon: Icon(Icons.logout)),
+  @override
+  Widget build(BuildContext context) {
+    final controller = Get.put(NavigationController());
 
-//         //IconButton(onPressed: logOut, icon: Icon(Icons.verified_user_sharp)),
-//       ]),
-//       body: Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             Text("Logged In"),
-//             IconButton(
-//                 onPressed: () {
-//                   Navigator.push(
-//                     context,
-//                     MaterialPageRoute(
-//                         builder: (context) => const ProductViewer()),
-//                   );
-//                 },
-//                 icon: Icon(Icons.photo_camera_back_outlined),
-//                 iconSize: 200),
-//             // IconButton(
-//             //     onPressed: () {
-//             //       Navigator.push(
-//             //         context,
-//             //         MaterialPageRoute(
-//             //             builder: (context) => const ProfileViewer()),
-//             //       );
-//             //     },
-//             //     icon: Icon(Icons.person_2),
-//             //     iconSize: 100)
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
+    return Scaffold(
+      bottomNavigationBar: NavigationBar(
+        height: 80,
+        elevation: 1,
+        //selectedIndex: controller.selectedIndex.value,
+        //onDestinationSelected: (index) =>
+        //   controller.selectedIndex.value = index,
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.home_outlined),
+            label: "Home",
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.photo_album_outlined),
+            label: "Gallery",
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.shopping_cart_outlined),
+            label: "Cart",
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.people_alt_outlined),
+            label: "Profile",
+          ),
+        ],
+        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        surfaceTintColor: Color(0xFF755DC1),
+        indicatorColor: Color(0xFF755DC1),
+      ),
+      body: Container(),
+    );
+  }
+}
+
+class NavigationController extends GetxController {
+  final RxInt selectedIndex = 1.obs;
+  final screens = [
+    Container(
+      color: Colors.amber,
+    ),
+    Container(
+      color: Colors.blue,
+    ),
+    Container(
+      color: Colors.green,
+    ),
+    Container(
+      color: Colors.red,
+    )
+  ];
+}
