@@ -10,9 +10,9 @@ class MyCarouselSlider extends StatefulWidget {
 class _MyCarouselSliderState extends State<MyCarouselSlider> {
   final imgSldImages = [
     // Image.asset('assets/images/logo.png'),
-    Image.asset('assets/images/vector-1.png'),
-    Image.asset('assets/images/vector-2.png'),
-    Image.asset('assets/images/vector-1.png'),
+    Image.asset('assets/images/banners/5.png'),
+    Image.asset('assets/images/banners/5.png'),
+    Image.asset('assets/images/banners/5.png'),
   ];
 
   int myCurrentIndex = 0;
@@ -24,11 +24,11 @@ class _MyCarouselSliderState extends State<MyCarouselSlider> {
         CarouselSlider(
           options: CarouselOptions(
             autoPlay: true,
-            height: 150,
+            height: 170,
             autoPlayCurve: Curves.fastOutSlowIn,
-            autoPlayAnimationDuration: const Duration(milliseconds: 8000),
+            autoPlayAnimationDuration: const Duration(milliseconds: 10000),
             enableInfiniteScroll: true,
-            autoPlayInterval: const Duration(seconds: 2),
+            autoPlayInterval: const Duration(seconds: 3),
             enlargeStrategy: CenterPageEnlargeStrategy.zoom,
             enlargeCenterPage: true,
             aspectRatio: 3.0,
@@ -39,6 +39,9 @@ class _MyCarouselSliderState extends State<MyCarouselSlider> {
             },
           ),
           items: imgSldImages,
+        ),
+        SizedBox(
+          height: 5,
         ),
         AnimatedSmoothIndicator(
           activeIndex: myCurrentIndex,
