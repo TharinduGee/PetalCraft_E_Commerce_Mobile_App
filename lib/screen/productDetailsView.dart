@@ -37,30 +37,8 @@ class ProductDetailsView extends StatelessWidget {
                       children: [
                         IconButton(
                           onPressed: () {
-                            Navigator.push(
+                            Navigator.pop(
                               context,
-                              PageRouteBuilder(
-                                pageBuilder:
-                                    (context, animation, secondaryAnimation) =>
-                                        ProductList(category: "Fresh Flowers"),
-                                transitionsBuilder: (context, animation,
-                                    secondaryAnimation, child) {
-                                  const begin = Offset(0.0, 1.0);
-                                  const end = Offset.zero;
-                                  var offsetAnimation =
-                                      Tween<Offset>(begin: begin, end: end)
-                                          .animate(
-                                    CurvedAnimation(
-                                      parent: animation,
-                                      curve: Curves.fastOutSlowIn,
-                                    ),
-                                  );
-                                  return SlideTransition(
-                                    position: offsetAnimation,
-                                    child: child,
-                                  );
-                                },
-                              ),
                             );
                           },
                           icon: Icon(Icons.backspace_outlined),
