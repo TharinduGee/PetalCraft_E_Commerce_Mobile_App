@@ -9,8 +9,6 @@ import 'package:namer_app/screen/producttest.dart';
 class NavigationMenu extends StatelessWidget {
   NavigationMenu({super.key});
 
-  final user = FirebaseAuth.instance.currentUser;
-  
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(NavigationController());

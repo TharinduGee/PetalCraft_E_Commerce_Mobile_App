@@ -3,6 +3,7 @@ import 'package:namer_app/components/authTextFormField.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:namer_app/screen/authetication/signup.dart';
+import 'package:namer_app/services/auth_service.dart';
 
 class LogIn extends StatefulWidget {
   @override
@@ -107,7 +108,7 @@ class _LogInState extends State<LogIn> {
                     ),
                   ),
                   const SizedBox(
-                    height: 50,
+                    height: 30,
                   ),
                   AuthTextFormField(
                     controller: emailController,
@@ -122,7 +123,7 @@ class _LogInState extends State<LogIn> {
                     },
                   ),
                   const SizedBox(
-                    height: 50,
+                    height: 15,
                   ),
                   AuthTextFormField(
                     controller: passwordController,
@@ -153,7 +154,7 @@ class _LogInState extends State<LogIn> {
                           backgroundColor: Color.fromRGBO(159, 123, 255, 1),
                         ),
                         child: const Text(
-                          'Sign In',
+                          'Log In',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 15,
@@ -166,6 +167,61 @@ class _LogInState extends State<LogIn> {
                   ),
                   const SizedBox(
                     height: 15,
+                  ),
+                  const Text(
+                    'or',
+                    style: TextStyle(
+                      color: Color(0xFF837E93),
+                      fontSize: 13,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    child: SizedBox(
+                      width: 250,
+                      height: 56,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          AuthService().signInWithGoogle();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          side: BorderSide(color: Colors.black, width: 1)
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: 35,
+                              height: 35,
+                              child: Image.asset(
+                                'assets/icons/google_icon.png',
+                              ),
+                            ),
+                            SizedBox(
+                              width: 30,
+                            ),
+                            const Text(
+                              'Sign in with Google',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

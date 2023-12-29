@@ -31,7 +31,6 @@ class CustomerService {
   }
 
   Future<String> getUsername(String email) async {
-    //var email = FirebaseAuth.instance.currentUser?.email.toString();
     QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
         .instance
         .collection('Customers')

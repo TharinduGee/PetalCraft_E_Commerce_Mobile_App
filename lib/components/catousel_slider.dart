@@ -25,8 +25,9 @@ class _MyCarouselSliderState extends State<MyCarouselSlider> {
           options: CarouselOptions(
             autoPlay: true,
             height: 170,
+            //width = 414
             autoPlayCurve: Curves.fastOutSlowIn,
-            autoPlayAnimationDuration: const Duration(milliseconds: 10000),
+            autoPlayAnimationDuration: const Duration(milliseconds: 12000),
             enableInfiniteScroll: true,
             autoPlayInterval: const Duration(seconds: 3),
             enlargeStrategy: CenterPageEnlargeStrategy.zoom,
@@ -38,7 +39,21 @@ class _MyCarouselSliderState extends State<MyCarouselSlider> {
               });
             },
           ),
-          items: imgSldImages,
+          items: imgSldImages.map((image) {
+            return Builder(
+              builder: (BuildContext context) {
+                return Container(
+                  width: MediaQuery.of(context).size.width,
+                  color: const Color.fromARGB(255, 245, 231, 188),
+                  margin: EdgeInsets.symmetric(horizontal: 0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: image,
+                  ),
+                );
+              },
+            );
+          }).toList(),
         ),
         SizedBox(
           height: 5,

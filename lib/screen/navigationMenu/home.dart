@@ -1,8 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:namer_app/components/catousel_slider.dart';
-import 'package:namer_app/screen/home.dart';
-import 'package:namer_app/screen/navigationMenu/gallery.dart';
 import 'package:namer_app/screen/product_list.dart';
 import 'package:namer_app/services/CustomerService.dart';
 
@@ -14,10 +13,6 @@ class Home extends StatelessWidget {
     CustomerService cusservice = CustomerService();
 
     String email = FirebaseAuth.instance.currentUser!.email.toString();
-
-    void logOut() {
-      FirebaseAuth.instance.signOut();
-    }
 
     List imgList = [
       '4',
@@ -34,11 +29,21 @@ class Home extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
-          padding: const EdgeInsets.only(left: 0),
-          child: Image.asset(
-            "assets/images/logo.png",
-          ),
-        ),
+            padding: const EdgeInsets.only(left: 10),
+            child: Icon(Icons.person_2)),
+        title: FutureBuilder<String>(
+            future: cusservice.getUsername(email),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Text("Welcome !");
+              } else if (snapshot.hasError) {
+                return Text("Welcome !");
+              } else {
+                return Text(
+                  "Welcome ${snapshot.data ?? ""} !",
+                );
+              }
+            }),
         actions: [
           Padding(
             padding: const EdgeInsets.only(
@@ -183,14 +188,6 @@ class Home extends StatelessWidget {
                                 color: Colors.black.withOpacity(0.6),
                               ),
                             ),
-                            SizedBox(height: 5),
-                            Text(
-                              "55 items",
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            )
                           ],
                         ),
                       ),
