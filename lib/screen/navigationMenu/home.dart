@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:namer_app/components/catousel_slider.dart';
+import 'package:namer_app/screen/navigationMenu/notificationCenter.dart';
 import 'package:namer_app/screen/product_list.dart';
 import 'package:namer_app/services/CustomerService.dart';
 
@@ -49,7 +50,13 @@ class Home extends StatelessWidget {
             padding: const EdgeInsets.only(
               right: 15,
             ),
-            child: Icon(Icons.notifications_outlined),
+            child: IconButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (ctx) => NotificationPage()),
+                  );
+                },
+                icon: Icon(Icons.notifications_outlined)),
           )
         ],
         scrolledUnderElevation: 1,
