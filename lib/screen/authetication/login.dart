@@ -3,7 +3,7 @@ import 'package:namer_app/components/authTextFormField.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:namer_app/screen/authetication/signup.dart';
-import 'package:namer_app/services/auth_service.dart';
+import 'package:namer_app/services/google_auth_service.dart';
 
 class LogIn extends StatefulWidget {
   @override
@@ -190,9 +190,8 @@ class _LogInState extends State<LogIn> {
                           AuthService().signInWithGoogle();
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          side: BorderSide(color: Colors.black, width: 1)
-                        ),
+                            backgroundColor: Colors.white,
+                            side: BorderSide(color: Colors.black, width: 1)),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -240,9 +239,6 @@ class _LogInState extends State<LogIn> {
                       ),
                       InkWell(
                         onTap: () {
-                          // widget.controller.animateToPage(1,
-                          // duration: const Duration(milliseconds: 500),
-                          // curve: Curves.ease);
                           Navigator.of(context).pushReplacement(
                               MaterialPageRoute(builder: (ctx) => Signup()));
                         },

@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:namer_app/components/authTextFormField.dart';
 import 'package:namer_app/screen/authetication/login.dart';
 import 'package:namer_app/screen/navigationMenu/NavigationMenu.dart';
-import 'package:namer_app/screen/navigationMenu/home.dart';
-import 'package:namer_app/services/CustomerService.dart';
+import 'package:namer_app/services/customer_service.dart';
 
 class Signup extends StatefulWidget {
   @override
@@ -32,11 +31,14 @@ void signUp(context) async {
 
     await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text, password: passwordController.text);
+
+    String uId = FirebaseAuth.instance.currentUser!.uid.toString();
     database.addDocument(
-        usernameController, emailController, phoneNoController);
-    
+        uId, usernameController, emailController, phoneNoController);
+
     Navigator.pop(context);
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (ctx) => NavigationMenu()));
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (ctx) => NavigationMenu()));
   } on FirebaseAuthException catch (e) {
     Navigator.pop(context);
 

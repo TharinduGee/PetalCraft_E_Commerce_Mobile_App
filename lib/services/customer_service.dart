@@ -6,11 +6,13 @@ class CustomerService {
   FirebaseFirestore db = FirebaseFirestore.instance;
 
   Future<void> addDocument(
+    String uId,
     TextEditingController usernameController,
     TextEditingController emailController,
     TextEditingController phoneNoController,
   ) async {
     final Customer customer = Customer(
+        uId: uId,
         username: usernameController.text,
         email: emailController.text,
         phoneNo: phoneNoController.text);
@@ -30,11 +32,11 @@ class CustomerService {
     }
   }
 
-  Future<String> getUsername(String email) async {
+  Future<String> getUsername(String uId) async {
     QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
         .instance
         .collection('Customers')
-        .where("email", isEqualTo: email)
+        .where("uId", isEqualTo: uId)
         .limit(1)
         .get();
 

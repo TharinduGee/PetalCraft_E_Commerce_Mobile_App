@@ -1,10 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:namer_app/components/catousel_slider.dart';
 import 'package:namer_app/screen/navigationMenu/notificationCenter.dart';
 import 'package:namer_app/screen/product_list.dart';
-import 'package:namer_app/services/CustomerService.dart';
+import 'package:namer_app/services/customer_service.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -12,8 +11,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CustomerService cusservice = CustomerService();
-
-    String email = FirebaseAuth.instance.currentUser!.email.toString();
+    String uId = FirebaseAuth.instance.currentUser!.uid.toString();
 
     List imgList = [
       '4',
@@ -33,7 +31,7 @@ class Home extends StatelessWidget {
             padding: const EdgeInsets.only(left: 10),
             child: Icon(Icons.person_2)),
         title: FutureBuilder<String>(
-            future: cusservice.getUsername(email),
+            future: cusservice.getUsername(uId),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Text("Welcome !");
@@ -56,7 +54,7 @@ class Home extends StatelessWidget {
                     MaterialPageRoute(builder: (ctx) => NotificationPage()),
                   );
                 },
-                icon: Icon(Icons.notifications_outlined)),
+                icon: Icon(Icons.notifications_active)),
           )
         ],
         scrolledUnderElevation: 1,
@@ -141,11 +139,6 @@ class Home extends StatelessWidget {
                     ),
                   ],
                 ),
-                // const SizedBox(height: 20),
-                // Categories(currentCat: "ALL"),
-                // const SizedBox(height: 20),
-                // const QuickAndFastList(),
-                //),
                 GridView.builder(
                   //  Begins the creation of a GridView with a builder constructor, allowing for a dynamic number of children.
                   // scrollDirection: Axis.horizontal,
@@ -167,9 +160,27 @@ class Home extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  ProductList(category: categoryList[index])),
+                          PageRouteBuilder(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                    ProductList(category: 'Fresh Flowers'),
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              const begin = Offset(0.0, 1.0);
+                              const end = Offset.zero;
+                              var offsetAnimation =
+                                  Tween<Offset>(begin: begin, end: end).animate(
+                                CurvedAnimation(
+                                  parent: animation,
+                                  curve: Curves.fastOutSlowIn,
+                                ),
+                              );
+                              return SlideTransition(
+                                position: offsetAnimation,
+                                child: child,
+                              );
+                            },
+                          ),
                         );
                       },
                       child: Container(

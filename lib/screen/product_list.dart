@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:namer_app/models/product.dart';
+import 'package:namer_app/screen/navigationMenu/home.dart';
 import 'package:namer_app/screen/productDetailsView.dart';
 import 'package:namer_app/services/product_services.dart';
 
@@ -13,7 +14,10 @@ class ProductList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          leading: Icon(Icons.arrow_back_rounded),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_rounded),
+            onPressed: () => {Navigator.pop(context)},
+          ),
           title: Text(
             category,
             style: const TextStyle(
