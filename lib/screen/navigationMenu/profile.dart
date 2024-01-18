@@ -48,7 +48,7 @@ class _UserProfileState extends State<UserProfile> {
                       child: Row(
                         children: [
                           Text(
-                            snapshot.data.username.toString(),
+                            "Tharindu",
                             style: TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.bold,
