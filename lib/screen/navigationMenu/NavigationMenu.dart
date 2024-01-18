@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:namer_app/screen/navigationMenu/gallery.dart';
 import 'package:namer_app/screen/navigationMenu/home.dart';
 import 'package:namer_app/screen/navigationMenu/myCart.dart';
 import 'package:namer_app/screen/navigationMenu/profile.dart';
-import 'package:namer_app/screen/producttest.dart';
 
 class NavigationMenu extends StatelessWidget {
   NavigationMenu({super.key});
@@ -53,5 +51,5 @@ class NavigationMenu extends StatelessWidget {
 
 class NavigationController extends GetxController {
   final RxInt selectedIndex = 0.obs;
-  final screens = [Home(), Gallery(), MyCart(), Profile()];
+  final screens = [Home(), Gallery(), MyCart(), UserProfile()];
 }

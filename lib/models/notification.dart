@@ -2,11 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AppNotification {
   AppNotification(
-      { 
-      required this.customerId,
-      required this.message,
-      required this.status
-      });
+      {required this.customerId, required this.message, required this.status});
 
   final String customerId;
   final String message;
@@ -20,7 +16,6 @@ class AppNotification {
     };
   }
 
-
   factory AppNotification.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
   ) {
@@ -31,7 +26,4 @@ class AppNotification {
       status: data?['status'],
     );
   }
-
-
-
 }

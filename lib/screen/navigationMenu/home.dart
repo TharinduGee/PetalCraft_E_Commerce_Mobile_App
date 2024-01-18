@@ -2,17 +2,31 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:namer_app/components/catousel_slider.dart';
 import 'package:namer_app/screen/navigationMenu/notificationCenter.dart';
-import 'package:namer_app/screen/product_list.dart';
+import 'package:namer_app/screen/navigationMenu/product_list.dart';
 import 'package:namer_app/services/customer_service.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    CustomerService cusservice = CustomerService();
-    String uId = FirebaseAuth.instance.currentUser!.uid.toString();
+  State<Home> createState() => _HomeState();
+}
 
+final textController = TextEditingController();
+
+class _HomeState extends State<Home> {
+  void performSearch() {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            ProductList(category: textController.text),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     List imgList = [
       '4',
       '6',
@@ -25,6 +39,9 @@ class Home extends StatelessWidget {
       'Gifts',
     ];
 
+    CustomerService cusservice = CustomerService();
+    String uId = FirebaseAuth.instance.currentUser!.uid.toString();
+
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
@@ -34,9 +51,9 @@ class Home extends StatelessWidget {
             future: cusservice.getUsername(uId),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Text("Welcome !");
+                return Text("Hello There ...");
               } else if (snapshot.hasError) {
-                return Text("Welcome !");
+                return Text("Welcome!");
               } else {
                 return Text(
                   "Welcome ${snapshot.data ?? ""} !",
@@ -93,17 +110,44 @@ class Home extends StatelessWidget {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "Search here ...",
-                          hintStyle: TextStyle(
-                            color: Colors.black.withOpacity(0.5),
+                    // child: InkWell(
+                    //   onTap: () {
+
+                    //     // Handle the search icon click here
+                    //     performSearch();
+                    //   },
+                    child: Row(
+                      children: <Widget>[
+                        SizedBox(
+                          height: 50,
+                          width: 50,
+                          child: IconButton(
+                              onPressed: () {
+                                performSearch();
+                              },
+                              icon: Icon(Icons.search)),
+                        ),
+                        Expanded(
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: "Search here ...",
+                              hintStyle: TextStyle(
+                                color: Colors.black.withOpacity(0.5),
+                              ),
+                            ),
+                            controller: textController,
+                            validator: (String? value) {
+                              if (value != null &&
+                                  categoryList.contains(value)) {
+                                return "Ok";
+                              } else {
+                                return "";
+                              }
+                            },
                           ),
-                          prefixIcon: Icon(
-                            Icons.search,
-                            size: 25,
-                          )),
+                        )
+                      ],
                     ),
                   ),
                 ],
@@ -163,7 +207,7 @@ class Home extends StatelessWidget {
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
-                                    ProductList(category: 'Fresh Flowers'),
+                                    ProductList(category: categoryList[index]),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               const begin = Offset(0.0, 1.0);
@@ -188,6 +232,10 @@ class Home extends StatelessWidget {
                             EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: Colors.black,
+                            width: 2.0,
+                          ),
                           color: Color.fromARGB(255, 220, 214, 252),
                         ),
                         child: Column(
@@ -220,3 +268,17 @@ class Home extends StatelessWidget {
     );
   }
 }
+
+CustomerService cusservice = CustomerService();
+
+String email = FirebaseAuth.instance.currentUser!.email.toString();
+
+// void logOut(BuildContext context) {
+//   FirebaseAuth.instance.signOut();
+//   Navigator.pushReplacement (
+//     context,
+//     MaterialPageRoute(builder: (context) => LogIn),
+   
+//   );
+//   // Navigator.pop(context);      
+// }

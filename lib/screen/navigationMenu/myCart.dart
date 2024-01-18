@@ -31,6 +31,7 @@ class _MyCartState extends State<MyCart> {
             actions: [
               TextButton(
                   onPressed: () {
+                    CartService().deleteDocument(uId);
                     Navigator.pop(context);
                   },
                   child: Text(

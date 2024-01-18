@@ -84,7 +84,6 @@ class _NotificationItemState extends State<NotificationItem> {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(widget.message),
-      subtitle: Text("time"),
       tileColor: widget.status ? Colors.green.shade50 : Colors.red.shade300,
       leading: widget.status
           ? Icon(Icons.notifications)

@@ -45,24 +45,36 @@ class _MyWidgetState extends State<Gallery> {
                   child: Text('No image URLs available.'),
                 );
               } else {
-                return GridView.builder(
-                  scrollDirection: Axis.vertical,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, // Adjust the number of columns as needed
-                    crossAxisSpacing: 10.0,
-                    mainAxisSpacing: 10.0,
-                    childAspectRatio: 1.0,
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GridView.builder(
+                    scrollDirection: Axis.vertical,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, // Adjust the number of columns as needed
+                      crossAxisSpacing: 10.0,
+                      mainAxisSpacing: 10.0,
+                      childAspectRatio: 1.0,
+                    ),
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black, width: 0.5),
+                          
+                        ),
+                        child:
+                          Image.network(snapshot.data![index],
+                          fit: BoxFit.cover
+                          )
+                          ,                    
+                        
+                      );
+                    },
                   ),
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Image.network(snapshot.data![index]),                    
-                    );
-                  },
                 );
               }
             },
           ),
-        ));
+  ));
   }
 }

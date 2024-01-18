@@ -8,6 +8,22 @@ import 'dart:async';
 class CartService {
   FirebaseFirestore db = FirebaseFirestore.instance;
 
+  void deleteDocument(String customerId) async {
+    try {
+      QuerySnapshot querySnapshot = await db
+          .collection('Cart')
+          .where('customerId', isEqualTo: customerId)
+          .limit(1)
+          .get();
+      String id = querySnapshot.docs.first.id;
+      await FirebaseFirestore.instance.collection("Cart").doc(id).delete();
+
+      print('Document deleted successfully');
+    } catch (error) {
+      print('Error deleting document: $error');
+    }
+  }
+
   Future<void> deleteItem(String productId, String customerId) async {
     QuerySnapshot querySnapshot = await db
         .collection('Cart')

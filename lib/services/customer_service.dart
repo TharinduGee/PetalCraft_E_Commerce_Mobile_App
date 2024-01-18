@@ -49,4 +49,18 @@ class CustomerService {
       return Customer.fromFirestore(documentSnapshot).username;
     }
   }
+
+  Future<Customer> getUser(String uId) async {
+    QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+        .instance
+        .collection('Customers')
+        .where("uId", isEqualTo: uId)
+        .limit(1)
+        .get();
+
+    QueryDocumentSnapshot<Map<String, dynamic>> documentSnapshot =
+        snapshot.docs[0];
+
+    return Customer.fromFirestore(documentSnapshot);
+  }
 }

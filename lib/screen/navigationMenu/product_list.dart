@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:namer_app/models/product.dart';
 import 'package:namer_app/screen/navigationMenu/home.dart';
-import 'package:namer_app/screen/productDetailsView.dart';
+import 'package:namer_app/screen/navigationMenu/productDetailsView.dart';
 import 'package:namer_app/services/product_services.dart';
 
 class ProductList extends StatelessWidget {
@@ -103,7 +103,7 @@ class ProductList extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(
-                                height: 100,
+                                height: 125,
                                 width: double.infinity,
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.only(
@@ -128,8 +128,15 @@ class ProductList extends StatelessWidget {
                                         fontSize: 16,
                                       ),
                                     ),
-                                    SizedBox(height: 8),
-                                    Text(product.description),
+                                    Text(
+                                      "Price : \$${product.price.toString()}",
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                    // SizedBox(height: 8),
+                                    // Text(product.description),
                                   ],
                                 ),
                               ),
