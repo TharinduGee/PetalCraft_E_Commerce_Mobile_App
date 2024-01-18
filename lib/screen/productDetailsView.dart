@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:namer_app/models/product.dart';
 import 'package:namer_app/screen/product_list.dart';
+import 'package:namer_app/services/cart_service.dart';
 
 class ProductDetailsView extends StatelessWidget {
   const ProductDetailsView({super.key, required this.product});
@@ -9,6 +11,8 @@ class ProductDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String uId = FirebaseAuth.instance.currentUser!.uid.toString();
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -48,7 +52,7 @@ class ProductDetailsView extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    bottom: -300,
+                    bottom: 3000,
                     child: Image.network(
                       product.productImage,
                     ),
@@ -85,29 +89,31 @@ class ProductDetailsView extends StatelessWidget {
                 child: TextButton(
                   child: const Text('Add to Cart'),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation, secondaryAnimation) =>
-                            ProductList(category: 'Fresh Flowers'),
-                        transitionsBuilder:
-                            (context, animation, secondaryAnimation, child) {
-                          const begin = Offset(0.0, 1.0);
-                          const end = Offset.zero;
-                          var offsetAnimation =
-                              Tween<Offset>(begin: begin, end: end).animate(
-                            CurvedAnimation(
-                              parent: animation,
-                              curve: Curves.fastOutSlowIn,
-                            ),
-                          );
-                          return SlideTransition(
-                            position: offsetAnimation,
-                            child: child,
-                          );
-                        },
-                      ),
-                    );
+                    CartService().addItem(uId, product, 1);
+
+                    // Navigator.push(
+                    //   context,
+                    //   PageRouteBuilder(
+                    //     pageBuilder: (context, animation, secondaryAnimation) =>
+                    //         ProductList(category: 'Fresh Flowers'),
+                    //     transitionsBuilder:
+                    //         (context, animation, secondaryAnimation, child) {
+                    //       const begin = Offset(0.0, 1.0);
+                    //       const end = Offset.zero;
+                    //       var offsetAnimation =
+                    //           Tween<Offset>(begin: begin, end: end).animate(
+                    //         CurvedAnimation(
+                    //           parent: animation,
+                    //           curve: Curves.fastOutSlowIn,
+                    //         ),
+                    //       );
+                    //       return SlideTransition(
+                    //         position: offsetAnimation,
+                    //         child: child,
+                    //       );
+                    //     },
+                    //   ),
+                    // );
                   },
                 ),
               ),

@@ -1,16 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:namer_app/models/product.dart';
 
-class Product {
-  Product({
+class CartItem {
+  CartItem({
     required this.productId,
     required this.productImage,
     required this.name,
     required this.price,
     required this.description,
     required this.category,
+    required this.quantity,
   });
 
-  final String productId;
+  final int quantity;
+   final String productId;
   final String productImage;
   final String name;
   final int price;
@@ -19,6 +22,7 @@ class Product {
 
   Map<String, dynamic> toMap() {
     return {
+      'quantity': quantity,
       'productId': productId,
       'productImage': productImage,
       'name': name,
@@ -28,8 +32,9 @@ class Product {
     };
   }
 
-  factory Product.fromMap(Map<String, dynamic> map) {
-    return Product(
+  factory CartItem.fromMap(Map<String, dynamic> map) {
+    return CartItem(
+      quantity: map?['quantity'],
       productId: map?['productId'],
       name: map?['name'],
       productImage: map?['productImage'],
@@ -39,12 +44,13 @@ class Product {
     );
   }
 
-  factory Product.fromFirestore(
+  factory CartItem.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
   ) {
     final data = snapshot.data();
-    return Product(
-      productId: data?['productId'],
+    return CartItem(
+      quantity: data?['quantity'],
+       productId: data?['productId'],
       name: data?['name'],
       productImage: data?['productImage'],
       price: data?['price'],

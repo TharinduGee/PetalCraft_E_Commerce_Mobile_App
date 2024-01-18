@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:namer_app/services/notification_service.dart';
 
@@ -14,11 +15,12 @@ class _NotificationPageState extends State<NotificationPage> {
 
   @override
   Widget build(BuildContext context) {
+    final String uId = FirebaseAuth.instance.currentUser!.uid.toString();
     return Scaffold(
       appBar: AppBar(
           title: Text("Notification"), backgroundColor: Color(0xFF9F7BFF)),
       body: FutureBuilder(
-          future: notificationService.newGetNotifications("001"),
+          future: notificationService.newGetNotifications(uId),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
@@ -33,7 +35,6 @@ class _NotificationPageState extends State<NotificationPage> {
                 child: Text('No Products available.'),
               );
             } else {
-              
               List<String> documentIds = [];
               List<Map<String, dynamic>> notificationsData = [];
 

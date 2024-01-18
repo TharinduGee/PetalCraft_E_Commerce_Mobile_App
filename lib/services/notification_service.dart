@@ -5,8 +5,8 @@ import 'package:namer_app/models/product.dart';
 class NotificationService {
   FirebaseFirestore db = FirebaseFirestore.instance;
 
-  Future<void> publishNotification(
-      String customerId, String message, bool status) async {
+  publishNotification(
+      String customerId, String message, bool status)  async{
     final AppNotification notification = AppNotification(
         customerId: customerId, message: message, status: status);
 
