@@ -3,6 +3,7 @@ import 'package:namer_app/components/authTextFormField.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:namer_app/screen/authetication/signup.dart';
+import 'package:namer_app/screen/navigationMenu/NavigationMenu.dart';
 import 'package:namer_app/services/google_auth_service.dart';
 
 class LogIn extends StatefulWidget {
@@ -28,7 +29,6 @@ void signIn(context) async {
       email: emailController.text,
       password: passwordController.text,
     );
-
     emailController.clear();
     passwordController.clear();
 

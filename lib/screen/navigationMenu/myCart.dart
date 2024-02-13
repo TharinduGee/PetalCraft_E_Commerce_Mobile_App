@@ -66,11 +66,9 @@ class _MyCartState extends State<MyCart> {
               double totalPrice = 0.0;
 
               for (CartItem cartItem in cartItems) {
-                // Assuming 'price' is a field in your CartItem class
-                double itemPrice = cartItem.price.toDouble() *
-                    cartItem.quantity.toDouble(); // Use 0.0 if 'price' is null
+                double itemPrice =
+                    cartItem.price.toDouble() * cartItem.quantity.toDouble();
 
-                // Add the item price to the total
                 totalPrice += itemPrice;
               }
 
@@ -130,7 +128,7 @@ class _MyCartState extends State<MyCart> {
                                           ),
                                           Text(
                                             // '\Rs.${prices[index].toStringAsFixed(2)}',
-                                            cartItem.price.toString(),
+                                            '\Rs. ${cartItem.price.toString()}',
                                             style: TextStyle(
                                                 fontSize: 16,
                                                 color: Colors.grey),
@@ -178,7 +176,7 @@ class _MyCartState extends State<MyCart> {
                             width: 50.0,
                           ),
                           Text(
-                            totalPrice.toString(),
+                            'Rs.   $totalPrice',
                             style: TextStyle(
                                 fontSize: 24.0, fontWeight: FontWeight.bold),
                           )
@@ -194,8 +192,40 @@ class _MyCartState extends State<MyCart> {
                               child: ElevatedButton(
                                 onPressed: () {
                                   showCheckoutDialog();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.check_circle,
+                                            color: Colors.green,
+                                          ),
+                                          SizedBox(width: 8),
+                                          Text(
+                                            'Order Confirmed',
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      action: SnackBarAction(
+                                        label: 'Undo',
+                                        textColor: Colors.yellow,
+                                        onPressed: () {},
+                                      ),
+                                      backgroundColor: Colors.black87,
+                                      duration: Duration(seconds: 3),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                  );
                                   NotificationService().publishNotification(
-                                      uId, "Thank you ...", false);
+                                      uId,
+                                      "Order Confirmed 🛍️,  Thank you for your purchase!",
+                                      false);
                                   OrderDetailService().addDocument(
                                       uId,
                                       totalPrice,

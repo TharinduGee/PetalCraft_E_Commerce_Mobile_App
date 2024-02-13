@@ -10,9 +10,9 @@ class MyCarouselSlider extends StatefulWidget {
 class _MyCarouselSliderState extends State<MyCarouselSlider> {
   final imgSldImages = [
     // Image.asset('assets/images/logo.png'),
+    Image.asset('assets/images/banners/4.png'),
     Image.asset('assets/images/banners/5.png'),
-    Image.asset('assets/images/banners/5.png'),
-    Image.asset('assets/images/banners/5.png'),
+    Image.asset('assets/images/banners/6.png'),
   ];
 
   int myCurrentIndex = 0;
@@ -44,11 +44,19 @@ class _MyCarouselSliderState extends State<MyCarouselSlider> {
               builder: (BuildContext context) {
                 return Container(
                   width: MediaQuery.of(context).size.width,
-                  color: const Color.fromARGB(255, 245, 231, 188),
+                  height: MediaQuery.of(context)
+                      .size
+                      .width, // Set the height for the aspect ratio
+                  color: Color.fromARGB(255, 220, 214, 252),
                   margin: EdgeInsets.symmetric(horizontal: 0),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
-                    child: image,
+                    child: Image(
+                      image: image
+                          .image,
+                      fit: BoxFit
+                          .cover, 
+                    ),
                   ),
                 );
               },

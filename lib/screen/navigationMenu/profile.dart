@@ -35,20 +35,20 @@ class _UserProfileState extends State<UserProfile> {
             return SafeArea(
               child: SingleChildScrollView(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Stack(
                       children: [
-                        // Add your stack widgets here
+                        
                       ],
                     ),
                     SizedBox(height: 20),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: EdgeInsets.symmetric(horizontal: 35),
                       child: Row(
                         children: [
                           Text(
-                            "Tharindu",
+                            snapshot.data!.username,
                             style: TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.bold,
@@ -56,7 +56,7 @@ class _UserProfileState extends State<UserProfile> {
                           ),
                           SizedBox(width: 10),
                           const Icon(
-                            Icons.star_rounded,
+                            Icons.man_2_outlined,
                             color: Color(0xFFFFC542),
                             size: 30,
                           ),
@@ -70,7 +70,7 @@ class _UserProfileState extends State<UserProfile> {
                       child: Row(
                         children: [
                           Text(
-                            "Hi",
+                            snapshot.data!.email,
                             style: TextStyle(fontSize: 20),
                           ),
                           // Add your other widgets here
@@ -83,7 +83,7 @@ class _UserProfileState extends State<UserProfile> {
                         children: [
                           Expanded(
                             child: Text(
-                              "Hi",
+                              snapshot.data!.phoneNo,
                               style:
                                   TextStyle(fontSize: 16, color: Colors.grey),
                             ),

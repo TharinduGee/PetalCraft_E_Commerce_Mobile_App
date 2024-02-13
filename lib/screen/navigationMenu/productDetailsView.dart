@@ -107,6 +107,31 @@ class ProductDetailsView extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10))),
                       onPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Row(
+                              children: [
+                                Icon(
+                                  Icons.check_circle,
+                                  color: Colors.green,
+                                ),
+                                SizedBox(width: 8),
+                                Text(
+                                  'Item added to cart',
+                                  style: TextStyle(
+                                    color: Colors.green,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            backgroundColor: Colors.black87,
+                            duration: Duration(seconds: 3),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        );
                         CartService().addItem(uId, product, 1);
                       },
                     ),
@@ -120,101 +145,3 @@ class ProductDetailsView extends StatelessWidget {
     );
   }
 }
-
-// class ProductDetailsView extends StatelessWidget {
-//   const ProductDetailsView({super.key, required this.product});
-
-//   final Product product;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     String uId = FirebaseAuth.instance.currentUser!.uid.toString();
-
-//     return Scaffold(
-//       body: SafeArea(
-//         child: SingleChildScrollView(
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               Stack(
-//                 children: [
-//                   Container(
-//                     width: double.infinity,
-//                     height: 500,
-//                     decoration: BoxDecoration(
-//                       color: Color.fromARGB(255, 91, 123, 196),
-//                       borderRadius: BorderRadius.only(
-//                         bottomLeft: Radius.circular(30),
-//                         bottomRight: Radius.circular(30),
-//                       ),
-//                     ),
-//                   ),
-//                   Positioned(
-//                     top: 10,
-//                     left: 10,
-//                     right: 10,
-//                     child: Row(
-//                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                       children: [
-//                         IconButton(
-//                           onPressed: () {
-//                             Navigator.pop(
-//                               context,
-//                             );
-//                           },
-//                           icon: Icon(Icons.backspace_outlined),
-//                         ),
-//                         // Add your other widgets here
-//                       ],
-//                     ),
-//                   ),
-//                   Positioned(
-//                     bottom: 3000,
-//                     child: Image.network(
-//                       product.productImage,
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//               SizedBox(
-//                 height: 20,
-//               ),
-//               Padding(
-//                 padding: EdgeInsets.symmetric(
-//                   horizontal: 20,
-//                 ),
-//                 child: Text(
-//                   product.name!,
-//                 ),
-//               ),
-//               Padding(
-//                 padding: EdgeInsets.symmetric(horizontal: 20),
-//                 child: Row(
-//                   children: [
-//                     Text('\$${product.price}'),
-//                     SizedBox(width: 30),
-//                     const Icon(Icons.star_rounded, color: Color(0xFFFFC542)),
-//                     SizedBox(width: 5),
-//                     // Add your other widgets here
-//                   ],
-//                 ),
-//               ),
-//               SizedBox(height: 20),
-//               // Add more widgets here
-//               Padding(
-//                 padding: EdgeInsets.symmetric(horizontal: 30),
-//                 child: TextButton(
-//                   child: const Text('Add to Cart'),
-//                   onPressed: () {
-//                     CartService().addItem(uId, product, 1);
-
-//                   },
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }

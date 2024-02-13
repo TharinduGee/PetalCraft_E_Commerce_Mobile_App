@@ -4,6 +4,7 @@ import 'package:namer_app/components/authTextFormField.dart';
 import 'package:namer_app/screen/authetication/login.dart';
 import 'package:namer_app/screen/navigationMenu/NavigationMenu.dart';
 import 'package:namer_app/services/customer_service.dart';
+import 'package:namer_app/services/notification_service.dart';
 
 class Signup extends StatefulWidget {
   @override
@@ -35,6 +36,9 @@ void signUp(context) async {
     String uId = FirebaseAuth.instance.currentUser!.uid.toString();
     database.addDocument(
         uId, usernameController, emailController, phoneNoController);
+
+    NotificationService().publishNotification(
+        uId, "Welcome to PetalCraft 🌟 , Happy exploring! 🚀", false);
 
     Navigator.pop(context);
     Navigator.pushReplacement(

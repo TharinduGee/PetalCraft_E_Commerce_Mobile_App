@@ -95,20 +95,19 @@ class CartService {
           .get()
           .then((DocumentSnapshot<Map<String, dynamic>> documentSnapshot) {
         if (documentSnapshot.exists) {
-          // Document exists, access the field values
           Map<String, dynamic> data = documentSnapshot.data()!;
 
           // Access specific field values
           quantity = data['quantity'] ??
-              0; // Initialize to 0 if 'quantity' is not present
+              0; 
 
-          // Perform operations with the field values
+
           print('Initial Quantity: $quantity');
 
-          // Increment the quantity
+
           int updatedQuantity = quantity + c;
 
-          // Proceed with the update
+
           updatableItem.update({
             'quantity': updatedQuantity,
           }).then((_) {
@@ -171,14 +170,12 @@ class CartService {
             .get()
             .then((DocumentSnapshot<Map<String, dynamic>> documentSnapshot) {
           if (documentSnapshot.exists) {
-            // Document exists, access the field values
+     
             Map<String, dynamic> data = documentSnapshot.data()!;
 
             // Access specific field values
             quantity = data['quantity'] ??
-                0; // Initialize to 0 if 'quantity' is not present
-
-            // Perform operations with the field values
+                0; 
             print('Initial Quantity: $quantity');
 
             // Increment the quantity
@@ -275,7 +272,7 @@ class CartService {
       Set<CartItem> productList = <CartItem>{};
 
       if (querySnapshot.docs.isEmpty) {
-        // If the cart doesn't exist, emit an empty set
+
         _controller.add({});
       } else {
         String id = querySnapshot.docs.first.id;
@@ -283,7 +280,7 @@ class CartService {
             db.collection("Cart").doc(id).collection("ProductList");
 
         productCollection.snapshots().listen((QuerySnapshot productSnapshot) {
-          productList.clear(); // Clear the set before updating with new data
+          productList.clear(); 
 
           productSnapshot.docs.forEach((doc) {
             DocumentSnapshot<Map<String, dynamic>> documentSnapshot =
@@ -291,7 +288,7 @@ class CartService {
             productList.add(CartItem.fromFirestore(documentSnapshot));
           });
 
-          _controller.add(productList); // Emit the updated set
+          _controller.add(productList); 
         });
       }
     });
